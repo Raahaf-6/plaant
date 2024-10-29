@@ -45,7 +45,7 @@ struct EDPlant: View {
                         // Implement deletion logic as needed
                     }) {
                         Text("Delete Reminder")
-                            .foregroundColor(.red)
+                            .foregroundColor(.reeed)
                             .frame(width: 300, height: 11)
                             .padding()
                             .background(Color.gray.opacity(0.2))

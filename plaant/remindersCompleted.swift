@@ -36,11 +36,11 @@ struct remindersCompleted: View {
                 NavigationLink(destination: SetReminderView(reminderModel: reminderModel)) {
                     HStack {
                         Image(systemName: "plus.circle.fill")
-                            .foregroundColor(Color(red: 41/255, green: 223/255, blue: 168/255))
+                            .foregroundColor(Color.greeen)
                             .font(.largeTitle)
 
                         Text("New Reminder")
-                            .foregroundColor(Color(red: 41/255, green: 223/255, blue: 168/255))
+                            .foregroundColor(Color.greeen)
                     }
                     .padding(.trailing, 140)
                     .cornerRadius(10)

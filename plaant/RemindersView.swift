@@ -31,7 +31,7 @@ struct RemindersView: View {
                     VStack(alignment: .leading) {
                         HStack {
                             Image(systemName: reminder.isCompleted ? "checkmark.circle.fill" : "circle")
-                                .foregroundColor(reminder.isCompleted ? .green : .gray)
+                                .foregroundColor(reminder.isCompleted ? .greeen : .gray)
                                 .onTapGesture {
                                     toggleCompletion(for: reminder)
                                 }
@@ -55,9 +55,9 @@ struct RemindersView: View {
                                 HStack {
                                     HStack {
                                         Image(systemName: "sun.max")
-                                            .foregroundColor(.yellow)
+                                            .foregroundColor(.yelloww)
                                         Text(reminder.light)
-                                            .foregroundColor(.yellow)
+                                            .foregroundColor(.yelloww)
                                     }
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 6)
@@ -66,9 +66,9 @@ struct RemindersView: View {
 
                                     HStack {
                                         Image(systemName: "drop")
-                                            .foregroundColor(.blue)
+                                            .foregroundColor(.bluee)
                                         Text(reminder.waterAmount)
-                                            .foregroundColor(.blue)
+                                            .foregroundColor(.bluee)
                                     }
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 6)
@@ -93,11 +93,11 @@ struct RemindersView: View {
                 NavigationLink(destination: SetReminderView(reminderModel: reminderModel)) {
                     HStack {
                         Image(systemName: "plus.circle.fill")
-                            .foregroundColor(Color.green)
+                            .foregroundColor(Color.greeen)
                             .font(.title)
 
                         Text("New Reminder")
-                            .foregroundColor(Color.green)
+                            .foregroundColor(Color.greeen)
                     }
                     .padding(.vertical, 10)
                 }
