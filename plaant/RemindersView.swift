@@ -3,6 +3,8 @@ import SwiftUI
 struct RemindersView: View {
     @ObservedObject var reminderModel: PplantReminderModel
     @State private var showCompletedView = false
+    @State private var selectedReminder: PplantReminder? = nil
+    @State private var isShowingEditView = false
 
     var body: some View {
         VStack {
@@ -10,7 +12,6 @@ struct RemindersView: View {
             Text("My Plants 🌱")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-               // .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.trailing, 140)
 
             // Thin gray rectangle
@@ -30,7 +31,7 @@ struct RemindersView: View {
                     VStack(alignment: .leading) {
                         HStack {
                             Image(systemName: reminder.isCompleted ? "checkmark.circle.fill" : "circle")
-                                .foregroundColor(reminder.isCompleted ? .greeen : .gray)
+                                .foregroundColor(reminder.isCompleted ? .green : .gray)
                                 .onTapGesture {
                                     toggleCompletion(for: reminder)
                                 }
@@ -46,13 +47,17 @@ struct RemindersView: View {
                                 Text("\(reminder.name)")
                                     .foregroundColor(Color.white)
                                     .font(.title)
+                                    .onTapGesture(count: 2) {
+                                        selectedReminder = reminder
+                                        isShowingEditView = true
+                                    }
 
                                 HStack {
                                     HStack {
                                         Image(systemName: "sun.max")
-                                            .foregroundColor(.yelloww)
+                                            .foregroundColor(.yellow)
                                         Text(reminder.light)
-                                            .foregroundColor(.yelloww)
+                                            .foregroundColor(.yellow)
                                     }
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 6)
@@ -61,9 +66,9 @@ struct RemindersView: View {
 
                                     HStack {
                                         Image(systemName: "drop")
-                                            .foregroundColor(.bluee)
+                                            .foregroundColor(.blue)
                                         Text(reminder.waterAmount)
-                                            .foregroundColor(.bluee)
+                                            .foregroundColor(.blue)
                                     }
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 6)
@@ -74,23 +79,25 @@ struct RemindersView: View {
                         }
                         .padding()
                     }
+                    .listRowBackground(Color.clear) // Removes gray background from each row
                 }
                 .onDelete(perform: deleteReminder)
             }
             .onChange(of: reminderModel.reminders) { _ in
                 checkForCompletedReminders()
             }
+            .listStyle(PlainListStyle()) // Optional: Adjusts list appearance to avoid any default background
 
             // New Reminder Button
             HStack {
                 NavigationLink(destination: SetReminderView(reminderModel: reminderModel)) {
                     HStack {
                         Image(systemName: "plus.circle.fill")
-                            .foregroundColor(Color.greeen)
+                            .foregroundColor(Color.green)
                             .font(.title)
 
                         Text("New Reminder")
-                            .foregroundColor(Color.greeen)
+                            .foregroundColor(Color.green)
                     }
                     .padding(.vertical, 10)
                 }
@@ -98,6 +105,20 @@ struct RemindersView: View {
                 .padding(.trailing, 145)
                 .padding()
             }
+
+            // Hidden NavigationLink for editing
+            NavigationLink(
+                destination: EDPlant(reminderModel: reminderModel, reminder: selectedReminder),
+                isActive: $isShowingEditView,
+                label: { EmptyView() }
+            )
+            
+            // Hidden NavigationLink to remindersCompleted view
+            NavigationLink(
+                destination: remindersCompleted(reminderModel: reminderModel),
+                isActive: $showCompletedView,
+                label: { EmptyView() }
+            )
         }
         .navigationTitle("") // Empty to hide default title in NavigationBar
     }
@@ -115,8 +136,9 @@ struct RemindersView: View {
 
     private func checkForCompletedReminders() {
         if reminderModel.reminders.allSatisfy({ $0.isCompleted }) {
-            // Navigate to remindersCompleted view
             showCompletedView = true
+        } else {
+            showCompletedView = false
         }
     }
 }
